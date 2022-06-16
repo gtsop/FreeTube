@@ -52,6 +52,15 @@ function runApp() {
   // remove so we can register each time as we run the app.
   app.removeAsDefaultProtocolClient('freetube')
 
+    try {
+      // docArray = await baseHandlers.settings._findAppPreReadyRelatedSettings()
+    } catch (err) {
+      console.error(err)
+      // app.exit()
+      // return
+    }
+  
+  // app.disableHardwareAcceleration();
   // If we are running a non-packaged version of the app && on windows
   if (isDev && process.platform === 'win32') {
     // Set the path of electron.exe and your app.

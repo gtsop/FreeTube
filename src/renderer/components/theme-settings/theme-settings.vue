@@ -23,6 +23,11 @@
         @change="handleRestartPrompt"
       />
       <ft-toggle-switch
+          :label="$t('Settings.Theme Settings Settings.Disable Hardware Acceleration')"
+          :default-value="disableHardwareAccelerationToggleValue"
+          @change="handleRestartPromptAcc"
+      />
+      <ft-toggle-switch
         :label="$t('Settings.Theme Settings.Hide Side Bar Labels')"
         :default-value="hideLabelsSideBar"
         @change="updateHideLabelsSideBar"
@@ -69,6 +74,12 @@
       :option-names="restartPromptNames"
       :option-values="restartPromptValues"
       @click="handleSmoothScrolling"
+    />
+    <ft-prompt v-if="showRestartPromptAcc"
+      :label="restartPromptMessage"
+      :option-names="restartPromptNames"
+      :option-values="restartPromptValues"
+      @click="handleDisableHardwareAcceleration"
     />
   </details>
 </template>

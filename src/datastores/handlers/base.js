@@ -23,6 +23,14 @@ class Settings {
     })
   }
 
+  static _findAppPreReadyRelatedSettings() {
+    return db.settings.find({
+      $or: [
+        { _id: 'disableHardwareAcceleration' },
+      ]
+    })
+  }
+
   static _findBounds() {
     return db.settings.findOne({ _id: 'bounds' })
   }

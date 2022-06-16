@@ -23,7 +23,9 @@ export default Vue.extend({
       maxUiScale: 300,
       uiScaleStep: 5,
       disableSmoothScrollingToggleValue: false,
+      disableHardwareAccelerationToggleValue: false,
       showRestartPrompt: false,
+      showRestartPromptAcc: false,
       restartPromptValues: [
         'yes',
         'no'
@@ -64,6 +66,10 @@ export default Vue.extend({
 
     disableSmoothScrolling: function () {
       return this.$store.getters.getDisableSmoothScrolling
+    },
+
+    disableHardwareAcceleration: function () {
+      return this.$store.getters.getDisableHardwareAcceleration
     },
 
     expandSideBar: function () {
@@ -109,6 +115,7 @@ export default Vue.extend({
   },
   mounted: function () {
     this.disableSmoothScrollingToggleValue = this.disableSmoothScrolling
+    this.disableHardwareAccelerationToggleValue = this.disableHardwareAcceleration
   },
   methods: {
     handleExpandSideBar: function (value) {
@@ -122,6 +129,11 @@ export default Vue.extend({
     handleRestartPrompt: function (value) {
       this.disableSmoothScrollingToggleValue = value
       this.showRestartPrompt = true
+    },
+
+    handleRestartPromptAcc: function (value) {
+      this.disableHardwareAccelerationToggleValue = value
+      this.showRestartPromptAcc = true
     },
 
     handleSmoothScrolling: function (value) {
@@ -142,6 +154,24 @@ export default Vue.extend({
       })
     },
 
+    handleDisableHardwareAcceleration: function (value) {
+      this.showRestartPromptAcc = false
+
+      if (value === null || value === 'no') {
+        this.disableHardwareAccelerationToggleValue = !this.disableHardwareAccelerationToggleValue
+        return
+      }
+
+      this.updateDisableHardwareAcceleration(
+        this.disableHardwareAccelerationToggleValue
+      ).then(() => {
+        // FIXME: No electron safeguard
+        const { ipcRenderer } = require('electron')
+
+        ipcRenderer.send('relaunchRequest')
+      })
+    },
+
     ...mapActions([
       'updateBarColor',
       'updateBaseTheme',
@@ -150,6 +180,7 @@ export default Vue.extend({
       'updateExpandSideBar',
       'updateUiScale',
       'updateDisableSmoothScrolling',
+      'updateDisableHardwareAcceleration',
       'updateHideLabelsSideBar'
     ])
   }
