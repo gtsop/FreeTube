@@ -60,7 +60,7 @@ function runApp() {
       // return
     }
   
-  // app.disableHardwareAcceleration();
+  app.disableHardwareAcceleration();
   // If we are running a non-packaged version of the app && on windows
   if (isDev && process.platform === 'win32') {
     // Set the path of electron.exe and your app.
@@ -345,6 +345,7 @@ function runApp() {
     if (startupUrl) {
       mainWindow.webContents.send('openUrl', startupUrl)
     }
+    mainWindow.webContents.send('log', app.getGPUFeatureStatus())
   })
 
   ipcMain.once('relaunchRequest', () => {
