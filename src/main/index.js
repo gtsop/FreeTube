@@ -15,7 +15,7 @@ if (process.argv.includes('--version')) {
   runApp()
 }
 
-function runApp() {
+async function runApp() {
   require('electron-context-menu')({
     showSearchWithGoogle: false,
     showSaveImageAs: true,
@@ -52,15 +52,31 @@ function runApp() {
   // remove so we can register each time as we run the app.
   app.removeAsDefaultProtocolClient('freetube')
 
-    try {
-      // docArray = await baseHandlers.settings._findAppPreReadyRelatedSettings()
-    } catch (err) {
-      console.error(err)
-      // app.exit()
-      // return
-    }
+  let settings;
+  try {
+    settings = await baseHandlers.settings._findAppPreReadyRelatedSettings()
+  } catch (err) {
+    console.error(err)
+    app.exit()
+    return
+  }
   
-  app.disableHardwareAcceleration();
+  let disableHardwareAcceleration = false
+
+  if (settings?.length > 0) {
+    settings.forEach((doc) => {
+      switch (doc._id) {
+        case 'disableHardwareAccelecation':
+          disableHardwareAccelecation = doc.value
+          break
+      }
+    })
+  }
+
+  if (disableHardwareAcceleration) {
+    app.disableHardwareAcceleration();
+  }
+
   // If we are running a non-packaged version of the app && on windows
   if (isDev && process.platform === 'win32') {
     // Set the path of electron.exe and your app.
