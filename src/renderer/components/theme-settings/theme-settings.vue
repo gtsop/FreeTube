@@ -23,7 +23,7 @@
         @change="handleRestartPrompt"
       />
       <ft-toggle-switch
-          :label="$t('Settings.Theme Settings Settings.Disable Hardware Acceleration')"
+          :label="$t('Settings.Theme Settings.Disable Hardware Acceleration')"
           :default-value="disableHardwareAccelerationToggleValue"
           @change="handleRestartPromptAcc"
       />
