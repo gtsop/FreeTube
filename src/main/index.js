@@ -66,8 +66,8 @@ async function runApp() {
   if (settings?.length > 0) {
     settings.forEach((doc) => {
       switch (doc._id) {
-        case 'disableHardwareAccelecation':
-          disableHardwareAccelecation = doc.value
+        case 'disableHardwareAcceleration':
+          disableHardwareAcceleration = doc.value
           break
       }
     })

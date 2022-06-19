@@ -24,11 +24,17 @@ class Settings {
   }
 
   static _findAppPreReadyRelatedSettings() {
-    return db.settings.find({
-      $or: [
-        { _id: 'disableHardwareAcceleration' },
-      ]
-    })
+    // TODO: We need to return this value but the app crashes,
+    // so for now we return a fixture
+
+    // return db.settings.find({
+    //   $or: [
+    //     { _id: 'disableHardwareAcceleration' }
+    //   ]
+    // })
+    return Promise.resolve([
+      { _id: 'disableHardwareAcceleration', value: true }
+    ])
   }
 
   static _findBounds() {
