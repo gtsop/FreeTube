@@ -163,6 +163,7 @@ Settings:
     Match Top Bar with Main Color: Match Top Bar with Main Color
     Expand Side Bar by Default: Expand Side Bar by Default
     Disable Smooth Scrolling: Disable Smooth Scrolling
+    Disable Hardware Acceleration: Disable Hardware Acceleration
     UI Scale: UI Scale
     Hide Side Bar Labels: Hide Side Bar Labels
     Base Theme:

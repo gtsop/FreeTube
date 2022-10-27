@@ -82,6 +82,9 @@ export default Vue.extend({
     checkForBlogPosts: function () {
       return this.$store.getters.getCheckForBlogPosts
     },
+    disableHardwareAcceleration: function () {
+      return this.$store.getters.getDisableHardwareAcceleration
+    },
     backendPreference: function () {
       return this.$store.getters.getBackendPreference
     },
@@ -227,6 +230,7 @@ export default Vue.extend({
       'updateBackendFallback',
       'updateCheckForUpdates',
       'updateCheckForBlogPosts',
+      'updateDisableHardwareAcceleration',
       'updateBarColor',
       'updateBackendPreference',
       'updateDefaultInvidiousInstance',

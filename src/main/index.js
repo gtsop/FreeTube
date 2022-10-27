@@ -15,7 +15,7 @@ if (process.argv.includes('--version')) {
   runApp()
 }
 
-function runApp() {
+async function runApp() {
   require('electron-context-menu')({
     showSearchWithGoogle: false,
     showSaveImageAs: true,
@@ -51,6 +51,31 @@ function runApp() {
   // See: https://stackoverflow.com/questions/45570589/electron-protocol-handler-not-working-on-windows
   // remove so we can register each time as we run the app.
   app.removeAsDefaultProtocolClient('freetube')
+
+  let settings;
+  try {
+    settings = await baseHandlers.settings._findAppPreReadyRelatedSettings()
+  } catch (err) {
+    console.error(err)
+    app.exit()
+    return
+  }
+  
+  let disableHardwareAcceleration = false
+
+  if (settings?.length > 0) {
+    settings.forEach((doc) => {
+      switch (doc._id) {
+        case 'disableHardwareAcceleration':
+          disableHardwareAcceleration = doc.value
+          break
+      }
+    })
+  }
+
+  if (disableHardwareAcceleration) {
+    app.disableHardwareAcceleration();
+  }
 
   // If we are running a non-packaged version of the app && on windows
   if (isDev && process.platform === 'win32') {
@@ -336,6 +361,7 @@ function runApp() {
     if (startupUrl) {
       mainWindow.webContents.send('openUrl', startupUrl)
     }
+    mainWindow.webContents.send('log', app.getGPUFeatureStatus())
   })
 
   ipcMain.once('relaunchRequest', () => {

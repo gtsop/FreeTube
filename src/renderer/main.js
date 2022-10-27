@@ -41,4 +41,8 @@ if (window && window.process && window.process.type === 'renderer') {
       router.push(data.route)
     }
   })
+
+  ipcRenderer.on('log', (event, data) => {
+    console.log(data)
+  })
 }
